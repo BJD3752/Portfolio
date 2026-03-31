@@ -1,114 +1,1057 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lead Data Analyst Portfolio</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <link rel="stylesheet" href="styles.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Biswajyoti Dash — Lead Data Analyst</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@300;400;500&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <style>
+    :root {
+      --bg: #0a0a0f;
+      --bg2: #111118;
+      --bg3: #16161f;
+      --surface: #1c1c28;
+      --surface2: #242435;
+      --accent: #e8c97e;
+      --accent2: #f0a500;
+      --accent3: #5bcfb5;
+      --text: #f0ede8;
+      --text2: #9999aa;
+      --text3: #55556a;
+      --red: #e06c75;
+      --blue: #61afef;
+      --green: #5bcfb5;
+      --border: rgba(232,201,126,0.12);
+      --glow: rgba(232,201,126,0.06);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Outfit', sans-serif;
+      overflow-x: hidden;
+      cursor: none;
+    }
+
+    /* Custom cursor */
+    .cursor {
+      width: 12px; height: 12px;
+      background: var(--accent);
+      border-radius: 50%;
+      position: fixed; pointer-events: none; z-index: 9999;
+      transform: translate(-50%, -50%);
+      transition: width 0.2s, height 0.2s, background 0.2s;
+      mix-blend-mode: difference;
+    }
+    .cursor-ring {
+      width: 36px; height: 36px;
+      border: 1px solid rgba(232,201,126,0.5);
+      border-radius: 50%;
+      position: fixed; pointer-events: none; z-index: 9998;
+      transform: translate(-50%, -50%);
+      transition: all 0.12s ease;
+    }
+    body:hover .cursor { opacity: 1; }
+
+    /* Noise overlay */
+    body::before {
+      content: '';
+      position: fixed; inset: 0; z-index: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+      pointer-events: none;
+      opacity: 0.4;
+    }
+
+    /* NAV */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      padding: 20px 60px;
+      display: flex; align-items: center; justify-content: space-between;
+      background: linear-gradient(to bottom, rgba(10,10,15,0.95), transparent);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid transparent;
+      transition: border-color 0.3s;
+    }
+    nav.scrolled { border-bottom-color: var(--border); }
+    .nav-logo {
+      font-family: 'DM Serif Display', serif;
+      font-size: 20px;
+      color: var(--accent);
+      letter-spacing: 0.04em;
+    }
+    .nav-logo span { color: var(--text2); font-size: 13px; font-family: 'DM Mono', monospace; display: block; margin-top: -4px; }
+    .nav-links { display: flex; gap: 36px; list-style: none; }
+    .nav-links a {
+      color: var(--text2); text-decoration: none;
+      font-size: 13px; letter-spacing: 0.08em; text-transform: uppercase;
+      font-family: 'DM Mono', monospace;
+      transition: color 0.2s;
+      position: relative;
+    }
+    .nav-links a::after {
+      content: ''; position: absolute; bottom: -4px; left: 0;
+      width: 0; height: 1px; background: var(--accent);
+      transition: width 0.3s;
+    }
+    .nav-links a:hover { color: var(--accent); }
+    .nav-links a:hover::after { width: 100%; }
+
+    /* HERO */
+    #hero {
+      min-height: 100vh;
+      display: grid; grid-template-columns: 1fr 1fr;
+      align-items: center;
+      padding: 120px 60px 80px;
+      position: relative; overflow: hidden;
+    }
+
+    .hero-bg-grid {
+      position: absolute; inset: 0; z-index: 0;
+      background-image:
+        linear-gradient(rgba(232,201,126,0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(232,201,126,0.03) 1px, transparent 1px);
+      background-size: 60px 60px;
+      mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black, transparent);
+    }
+
+    .hero-orb {
+      position: absolute; border-radius: 50%;
+      filter: blur(80px); pointer-events: none; z-index: 0;
+    }
+    .hero-orb-1 {
+      width: 500px; height: 500px;
+      background: radial-gradient(circle, rgba(232,201,126,0.12), transparent 70%);
+      top: -100px; right: -100px;
+      animation: floatOrb 8s ease-in-out infinite;
+    }
+    .hero-orb-2 {
+      width: 300px; height: 300px;
+      background: radial-gradient(circle, rgba(91,207,181,0.08), transparent 70%);
+      bottom: 100px; left: 100px;
+      animation: floatOrb 10s ease-in-out infinite reverse;
+    }
+    @keyframes floatOrb {
+      0%, 100% { transform: translateY(0px) scale(1); }
+      50% { transform: translateY(-30px) scale(1.05); }
+    }
+
+    .hero-left { position: relative; z-index: 1; }
+    .hero-tag {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-family: 'DM Mono', monospace; font-size: 11px;
+      color: var(--accent); text-transform: uppercase; letter-spacing: 0.15em;
+      padding: 6px 14px;
+      border: 1px solid rgba(232,201,126,0.3);
+      border-radius: 2px;
+      background: rgba(232,201,126,0.05);
+      margin-bottom: 28px;
+      opacity: 0; animation: fadeUp 0.6s 0.3s forwards;
+    }
+    .hero-tag::before { content: '▸'; font-size: 10px; }
+    .hero-name {
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(48px, 6vw, 84px);
+      line-height: 0.95;
+      letter-spacing: -0.02em;
+      margin-bottom: 20px;
+      opacity: 0; animation: fadeUp 0.6s 0.5s forwards;
+    }
+    .hero-name em { font-style: italic; color: var(--accent); }
+    .hero-role {
+      font-size: 17px; color: var(--text2); font-weight: 300;
+      max-width: 480px; line-height: 1.7;
+      margin-bottom: 40px;
+      opacity: 0; animation: fadeUp 0.6s 0.7s forwards;
+    }
+    .hero-stats {
+      display: flex; gap: 40px;
+      margin-bottom: 48px;
+      opacity: 0; animation: fadeUp 0.6s 0.9s forwards;
+    }
+    .stat-item { }
+    .stat-num {
+      font-family: 'DM Serif Display', serif;
+      font-size: 36px; color: var(--accent);
+      line-height: 1;
+    }
+    .stat-label { font-size: 11px; color: var(--text3); text-transform: uppercase; letter-spacing: 0.1em; margin-top: 4px; font-family: 'DM Mono', monospace; }
+    .hero-cta {
+      display: flex; gap: 16px; flex-wrap: wrap;
+      opacity: 0; animation: fadeUp 0.6s 1.1s forwards;
+    }
+    .btn-primary {
+      display: inline-flex; align-items: center; gap: 10px;
+      padding: 14px 28px;
+      background: var(--accent);
+      color: var(--bg);
+      font-size: 13px; font-weight: 600; letter-spacing: 0.05em;
+      text-decoration: none; border-radius: 3px;
+      transition: all 0.2s;
+      cursor: none;
+    }
+    .btn-primary:hover { background: var(--accent2); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(232,201,126,0.25); }
+    .btn-secondary {
+      display: inline-flex; align-items: center; gap: 10px;
+      padding: 14px 28px;
+      border: 1px solid var(--border);
+      color: var(--text); font-size: 13px; font-weight: 400;
+      text-decoration: none; border-radius: 3px;
+      transition: all 0.2s;
+      cursor: none;
+    }
+    .btn-secondary:hover { border-color: var(--accent); color: var(--accent); transform: translateY(-2px); }
+
+    /* Hero right — photo */
+    .hero-right {
+      position: relative; z-index: 1;
+      display: flex; justify-content: center; align-items: center;
+      opacity: 0; animation: fadeIn 1s 0.8s forwards;
+    }
+    .hero-photo-wrap {
+      position: relative; width: 380px; height: 460px;
+    }
+    .hero-photo-frame {
+      position: absolute; inset: 0;
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      overflow: hidden;
+    }
+    .hero-photo-frame img {
+      width: 100%; height: 100%; object-fit: cover; object-position: top;
+      filter: grayscale(20%) contrast(1.05);
+      transition: filter 0.4s;
+    }
+    .hero-photo-frame:hover img { filter: grayscale(0%) contrast(1.1); }
+    .hero-photo-frame::after {
+      content: '';
+      position: absolute; inset: 0;
+      background: linear-gradient(160deg, transparent 60%, rgba(10,10,15,0.6));
+    }
+    .photo-accent-line {
+      position: absolute;
+      width: 2px; background: var(--accent);
+      top: 20px; bottom: 20px; right: -12px;
+      border-radius: 1px;
+    }
+    .photo-accent-line2 {
+      position: absolute;
+      height: 2px; background: var(--accent3);
+      left: 20px; right: 20px; bottom: -12px;
+      border-radius: 1px;
+    }
+    .hero-badge {
+      position: absolute;
+      bottom: 30px; left: -40px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 3px;
+      padding: 14px 20px;
+      font-family: 'DM Mono', monospace;
+      font-size: 12px;
+      backdrop-filter: blur(12px);
+    }
+    .hero-badge .badge-num { font-size: 28px; color: var(--accent); font-family: 'DM Serif Display', serif; display: block; }
+    .hero-badge .badge-text { color: var(--text2); margin-top: 2px; }
+
+    /* Scroll indicator */
+    .scroll-hint {
+      position: absolute; bottom: 40px; left: 60px;
+      display: flex; align-items: center; gap: 12px;
+      font-family: 'DM Mono', monospace; font-size: 11px;
+      color: var(--text3); letter-spacing: 0.1em;
+      opacity: 0; animation: fadeIn 1s 1.5s forwards;
+      z-index: 1;
+    }
+    .scroll-line {
+      width: 40px; height: 1px; background: var(--text3);
+      position: relative; overflow: hidden;
+    }
+    .scroll-line::after {
+      content: ''; position: absolute;
+      top: 0; left: -100%; right: 100%;
+      height: 100%; background: var(--accent);
+      animation: scrollLine 2s 2s ease-in-out infinite;
+    }
+    @keyframes scrollLine { 0% { left: -100%; right: 100%; } 50% { left: 0; right: 0; } 100% { left: 100%; right: -100%; } }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    /* SECTION COMMON */
+    section { padding: 100px 60px; position: relative; }
+    .section-header {
+      display: flex; align-items: baseline; gap: 20px;
+      margin-bottom: 60px;
+    }
+    .section-num {
+      font-family: 'DM Mono', monospace; font-size: 13px;
+      color: var(--accent); opacity: 0.6;
+    }
+    .section-title {
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(32px, 4vw, 52px);
+      letter-spacing: -0.02em;
+    }
+    .section-line {
+      flex: 1; height: 1px;
+      background: linear-gradient(to right, var(--border), transparent);
+      margin-bottom: 4px;
+    }
+
+    /* Reveal animation */
+    .reveal {
+      opacity: 0; transform: translateY(30px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+    .reveal-delay-1 { transition-delay: 0.1s; }
+    .reveal-delay-2 { transition-delay: 0.2s; }
+    .reveal-delay-3 { transition-delay: 0.3s; }
+    .reveal-delay-4 { transition-delay: 0.4s; }
+
+    /* EXPERIENCE */
+    #experience { background: var(--bg); }
+    .exp-grid { display: flex; flex-direction: column; gap: 2px; }
+
+    .exp-item {
+      display: grid; grid-template-columns: 200px 1fr;
+      gap: 40px;
+      padding: 36px 0;
+      border-top: 1px solid var(--border);
+      transition: background 0.3s;
+      position: relative;
+    }
+    .exp-item::before {
+      content: ''; position: absolute;
+      left: -60px; right: -60px; top: 0; bottom: 0;
+      background: var(--glow);
+      opacity: 0; transition: opacity 0.3s;
+      pointer-events: none;
+    }
+    .exp-item:hover::before { opacity: 1; }
+    .exp-item:last-child { border-bottom: 1px solid var(--border); }
+
+    .exp-left { }
+    .exp-company-logo {
+      width: 56px; height: 28px; object-fit: contain;
+      filter: brightness(0) invert(1) opacity(0.7);
+      margin-bottom: 14px;
+      display: block;
+    }
+    .exp-period {
+      font-family: 'DM Mono', monospace; font-size: 11px;
+      color: var(--text3); letter-spacing: 0.08em; text-transform: uppercase;
+    }
+    .exp-company-name {
+      font-size: 14px; font-weight: 600; color: var(--text2);
+      margin-top: 6px;
+    }
+
+    .exp-right { }
+    .exp-role {
+      font-family: 'DM Serif Display', serif;
+      font-size: 26px; margin-bottom: 8px;
+      line-height: 1.2;
+    }
+    .exp-tag {
+      display: inline-block;
+      font-family: 'DM Mono', monospace; font-size: 10px;
+      padding: 3px 9px;
+      border: 1px solid rgba(91,207,181,0.3);
+      color: var(--accent3);
+      border-radius: 2px; margin-bottom: 16px;
+      text-transform: uppercase; letter-spacing: 0.1em;
+    }
+    .exp-bullets { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+    .exp-bullets li {
+      display: flex; gap: 12px;
+      font-size: 14px; color: var(--text2); line-height: 1.6;
+    }
+    .exp-bullets li::before {
+      content: '▸'; color: var(--accent); font-size: 11px;
+      flex-shrink: 0; margin-top: 3px;
+    }
+    .exp-skills {
+      display: flex; flex-wrap: wrap; gap: 8px; margin-top: 20px;
+    }
+    .skill-chip {
+      font-family: 'DM Mono', monospace; font-size: 11px;
+      padding: 4px 10px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 2px; color: var(--text2);
+      transition: all 0.2s;
+    }
+    .skill-chip:hover { border-color: var(--accent); color: var(--accent); background: var(--glow); }
+
+    /* SKILLS */
+    #skills { background: var(--bg2); }
+    .skills-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; }
+    .skills-col-title {
+      font-family: 'DM Mono', monospace; font-size: 11px;
+      color: var(--accent); text-transform: uppercase; letter-spacing: 0.15em;
+      margin-bottom: 24px;
+    }
+    .skill-bar-item { margin-bottom: 22px; }
+    .skill-bar-header { display: flex; justify-content: space-between; margin-bottom: 8px; }
+    .skill-bar-name { font-size: 14px; font-weight: 500; }
+    .skill-bar-pct { font-family: 'DM Mono', monospace; font-size: 12px; color: var(--accent); }
+    .skill-bar-track {
+      height: 3px; background: var(--surface2); border-radius: 2px; overflow: hidden;
+    }
+    .skill-bar-fill {
+      height: 100%; background: linear-gradient(90deg, var(--accent), var(--accent3));
+      border-radius: 2px;
+      width: 0; transition: width 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .skill-bar-fill.animated { width: var(--target-width); }
+
+    .skills-tags-grid { display: flex; flex-wrap: wrap; gap: 10px; }
+    .tag-pill {
+      font-family: 'DM Mono', monospace; font-size: 12px;
+      padding: 8px 16px;
+      border: 1px solid var(--border);
+      border-radius: 3px; color: var(--text2);
+      background: var(--surface);
+      transition: all 0.2s;
+    }
+    .tag-pill:hover { border-color: var(--accent3); color: var(--accent3); background: rgba(91,207,181,0.05); }
+
+    /* IMPACT METRICS */
+    #impact { background: var(--bg3); overflow: hidden; }
+    .impact-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--border); border: 1px solid var(--border); border-radius: 4px; overflow: hidden; }
+    .impact-card {
+      background: var(--bg3);
+      padding: 40px 32px;
+      text-align: center;
+      transition: background 0.3s;
+    }
+    .impact-card:hover { background: var(--surface); }
+    .impact-icon { font-size: 24px; margin-bottom: 16px; }
+    .impact-num {
+      font-family: 'DM Serif Display', serif;
+      font-size: 44px; color: var(--accent);
+      line-height: 1; margin-bottom: 8px;
+    }
+    .impact-desc { font-size: 13px; color: var(--text2); line-height: 1.5; }
+
+    /* EDUCATION */
+    #education { background: var(--bg); }
+    .edu-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+    .edu-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 4px; padding: 32px;
+      position: relative; overflow: hidden;
+      transition: all 0.3s;
+    }
+    .edu-card::before {
+      content: ''; position: absolute;
+      top: 0; left: 0; right: 0; height: 2px;
+      background: linear-gradient(90deg, var(--accent), var(--accent3));
+      transform: scaleX(0); transform-origin: left;
+      transition: transform 0.4s;
+    }
+    .edu-card:hover { transform: translateY(-4px); border-color: rgba(232,201,126,0.25); }
+    .edu-card:hover::before { transform: scaleX(1); }
+    .edu-degree { font-family: 'DM Serif Display', serif; font-size: 22px; margin-bottom: 8px; }
+    .edu-institution { font-size: 14px; color: var(--accent); font-weight: 500; margin-bottom: 6px; }
+    .edu-meta { font-family: 'DM Mono', monospace; font-size: 12px; color: var(--text3); }
+    .edu-pct {
+      position: absolute; top: 28px; right: 28px;
+      font-family: 'DM Serif Display', serif; font-size: 28px; color: var(--text3);
+    }
+
+    /* AWARDS */
+    #awards { background: var(--bg2); }
+    .awards-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+    .award-card {
+      display: flex; gap: 20px; align-items: flex-start;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 4px; padding: 28px;
+      transition: all 0.3s;
+    }
+    .award-card:hover { border-color: rgba(232,201,126,0.3); transform: translateY(-2px); }
+    .award-icon {
+      width: 44px; height: 44px; flex-shrink: 0;
+      background: rgba(232,201,126,0.1);
+      border-radius: 3px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 20px;
+    }
+    .award-content { }
+    .award-title { font-weight: 600; font-size: 15px; margin-bottom: 6px; }
+    .award-desc { font-size: 13px; color: var(--text2); line-height: 1.6; }
+    .award-year { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--accent); margin-top: 8px; }
+
+    /* ABOUT / INTERESTS */
+    #about { background: var(--bg3); }
+    .about-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
+    .about-text p { font-size: 16px; color: var(--text2); line-height: 1.8; margin-bottom: 16px; }
+    .interests-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .interest-item {
+      display: flex; align-items: center; gap: 12px;
+      padding: 16px 18px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 3px;
+      font-size: 14px; font-weight: 500;
+      transition: all 0.2s;
+    }
+    .interest-item:hover { border-color: var(--accent3); color: var(--accent3); }
+    .interest-item i { font-size: 18px; color: var(--accent); width: 20px; text-align: center; }
+
+    /* CONTACT */
+    #contact {
+      background: var(--bg);
+      text-align: center;
+    }
+    .contact-inner { max-width: 640px; margin: 0 auto; }
+    .contact-inner .section-header { justify-content: center; }
+    .contact-sub { font-size: 16px; color: var(--text2); margin-bottom: 48px; line-height: 1.7; }
+    .contact-links { display: flex; justify-content: center; gap: 16px; flex-wrap: wrap; margin-bottom: 60px; }
+    .contact-link {
+      display: flex; align-items: center; gap: 10px;
+      padding: 14px 24px;
+      border: 1px solid var(--border);
+      border-radius: 3px; color: var(--text);
+      text-decoration: none; font-size: 14px;
+      transition: all 0.2s; background: var(--surface);
+    }
+    .contact-link i { color: var(--accent); font-size: 16px; }
+    .contact-link:hover { border-color: var(--accent); color: var(--accent); transform: translateY(-2px); }
+
+    /* FOOTER */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 28px 60px;
+      display: flex; align-items: center; justify-content: space-between;
+      background: var(--bg);
+    }
+    footer .footer-name { font-family: 'DM Serif Display', serif; font-size: 18px; color: var(--accent); }
+    footer .footer-copy { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--text3); }
+
+    /* TERMINAL TICKER */
+    .ticker-bar {
+      background: var(--surface);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      padding: 10px 0; overflow: hidden;
+    }
+    .ticker-inner {
+      display: flex; gap: 60px;
+      animation: ticker 30s linear infinite;
+      width: max-content;
+    }
+    .ticker-item {
+      display: flex; align-items: center; gap: 10px;
+      font-family: 'DM Mono', monospace; font-size: 12px;
+      color: var(--text3); white-space: nowrap;
+    }
+    .ticker-item .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--accent3); }
+    @keyframes ticker { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+    /* RESPONSIVE */
+    @media (max-width: 900px) {
+      nav { padding: 16px 24px; }
+      .nav-links { display: none; }
+      #hero { grid-template-columns: 1fr; padding: 100px 24px 60px; }
+      .hero-right { display: none; }
+      section { padding: 60px 24px; }
+      .exp-item { grid-template-columns: 1fr; gap: 16px; }
+      .skills-layout, .edu-grid, .awards-grid, .about-layout { grid-template-columns: 1fr; }
+      .impact-grid { grid-template-columns: repeat(2, 1fr); }
+      footer { padding: 20px 24px; flex-direction: column; gap: 8px; text-align: center; }
+    }
+  </style>
 </head>
 <body>
-    <header>
-        <div class="container">
-            <img src="Biswa.jpeg" alt="Profile Picture">
-            <h1>BISWAJYOTI DASH</h1>
-            <h2>Data Analyst</h2>
-            <ul>
-                <li><a href="#about">About Me</a></li>
-                <li><a href="#experience">Experience</a></li>
-                <li><a href="#projects">Projects</a></li>
-                <li><a href="#skills">Skills</a></li>
-                <li><a href="#education">Education</a></li>
-                <li><a href="#contact">Contact</a></li>
-            </ul>
+
+  <div class="cursor" id="cursor"></div>
+  <div class="cursor-ring" id="cursorRing"></div>
+
+  <!-- NAV -->
+  <nav id="mainNav">
+    <div class="nav-logo">
+      BD
+      <span>// data analyst & ml engineer</span>
+    </div>
+    <ul class="nav-links">
+      <li><a href="#experience">Experience</a></li>
+      <li><a href="#skills">Skills</a></li>
+      <li><a href="#impact">Impact</a></li>
+      <li><a href="#education">Education</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </nav>
+
+  <!-- HERO -->
+  <section id="hero">
+    <div class="hero-bg-grid"></div>
+    <div class="hero-orb hero-orb-1"></div>
+    <div class="hero-orb hero-orb-2"></div>
+
+    <div class="hero-left">
+      <div class="hero-tag">Available for Senior Roles</div>
+      <h1 class="hero-name">
+        Biswajyoti<br><em>Dash</em>
+      </h1>
+      <p class="hero-role">
+        Lead Data Analyst & ML Engineer with 7+ years turning complex data into strategic decisions.
+        Specializing in statistical experimentation, predictive modeling, and automation that drives
+        <strong style="color:var(--accent)">multi-million dollar impact</strong>.
+      </p>
+      <div class="hero-stats">
+        <div class="stat-item">
+          <div class="stat-num">7+</div>
+          <div class="stat-label">Years Exp.</div>
         </div>
-    </header>
-    <section id="about">
-    <div class="container">
-        <i class="section-icon fas fa-user"></i>
-        <h2>About Me</h2>
-        <p>
-            Helping industry to take wise business decisions.
-	    Data analyst with 5+ years of experience. Experienced in interpreting, analyzing and visualizing data to drive growth in a Retail Finance, testing business and financial ideas with real time design, 	    measurement and suggestions.Skilled in Python, Tableau, Mysql, Mastercard APT, Data analysis, and Microsoft Excel. Bachelor of Technology (BTech) degree from IIIT Bhubaneswar.
-        </p>
+        <div class="stat-item">
+          <div class="stat-num">$35M+</div>
+          <div class="stat-label">Value Delivered</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-num">3</div>
+          <div class="stat-label">FAANG+ Companies</div>
+        </div>
+      </div>
+      <div class="hero-cta">
+        <a href="#contact" class="btn-primary"><i class="fas fa-paper-plane"></i> Get In Touch</a>
+        <a href="#experience" class="btn-secondary"><i class="fas fa-briefcase"></i> View Work</a>
+      </div>
     </div>
-</section>
 
-<section id="skills">
-    <div class="container">
-        <i class="section-icon fas fa-chart-bar"></i>
-        <h2>Skills</h2>
-        <ul>
-            <li><i class="fas fa-check-circle"></i> Data Analysis</li>
-            <li><i class="fas fa-check-circle"></i> Data Engineering</li>
-            <li><i class="fas fa-check-circle"></i> Statistics</li>
-            <li><i class="fas fa-check-circle"></i> Machine Learning</li>
-            <li><i class="fas fa-check-circle"></i> Data Visualization</li>
-            <!-- Add more skills as needed -->
-        </ul>
+    <div class="hero-right">
+      <div class="hero-photo-wrap">
+        <div class="hero-photo-frame">
+          <img src="Biswa.jpeg" alt="Biswajyoti Dash" />
+        </div>
+        <div class="photo-accent-line"></div>
+        <div class="photo-accent-line2"></div>
+        <div class="hero-badge">
+          <span class="badge-num">7+</span>
+          <span class="badge-text">Years in Data Analytics</span>
+        </div>
+      </div>
     </div>
-</section>
 
-<section id="education">
-    <div class="container">
-        <i class="section-icon fas fa-graduation-cap"></i>
-        <h2>Education</h2>
-        <ul>
-            <li><i class="fas fa-university"></i> B.Tech (Percentage: 76.6%) - IIIT-BH 2014-2018 | Odisha, India</li>
-            <li><i class="fas fa-university"></i> Intermediate (Percentage: 75.83%) - Ganagadhar Meher Govt. University 2011-2013 | Odisha, India</li>
-            <li><i class="fas fa-university"></i> High School (Percentage: 80.16%) - Budharaja High School 2008-2011 | Odisha, India</li>
-        </ul>
+    <div class="scroll-hint">
+      <div class="scroll-line"></div>
+      SCROLL TO EXPLORE
     </div>
-</section>
+  </section>
 
-<section id="experience">
-    <div class="container">
-        <i class="section-icon fas fa-briefcase"></i>
-        <h2>Experience</h2>
-        <ul>
-            <li>
-                <img src="/lowes-logo.png" alt="" class="experience-logo">
-                Senior Data Analyst - LOWES
-            </li>
-            <li>
-                <img src="/cisco-logo.png" alt="" class="experience-logo">
-                Business Analyst II - CISCO
-            </li>
-            <li>
-                <img src="/ibm-logo.png" alt="" class="experience-logo">
-                Data Analyst - IBM
-            </li>
-            <!-- Add more experience details as needed -->
-        </ul>
+  <!-- TICKER -->
+  <div class="ticker-bar">
+    <div class="ticker-inner">
+      <span class="ticker-item"><span class="dot"></span> Python · SQL · Tableau · Power BI</span>
+      <span class="ticker-item"><span class="dot"></span> A/B Testing · Diff-in-Diff · Holdout Tests</span>
+      <span class="ticker-item"><span class="dot"></span> Machine Learning · NLP · Time Series</span>
+      <span class="ticker-item"><span class="dot"></span> Lowe's · Cisco · IBM</span>
+      <span class="ticker-item"><span class="dot"></span> $8M savings · $27M campaign optimization</span>
+      <span class="ticker-item"><span class="dot"></span> Lead Analyst · 7-member team leadership</span>
+      <!-- duplicate for infinite scroll -->
+      <span class="ticker-item"><span class="dot"></span> Python · SQL · Tableau · Power BI</span>
+      <span class="ticker-item"><span class="dot"></span> A/B Testing · Diff-in-Diff · Holdout Tests</span>
+      <span class="ticker-item"><span class="dot"></span> Machine Learning · NLP · Time Series</span>
+      <span class="ticker-item"><span class="dot"></span> Lowe's · Cisco · IBM</span>
+      <span class="ticker-item"><span class="dot"></span> $8M savings · $27M campaign optimization</span>
+      <span class="ticker-item"><span class="dot"></span> Lead Analyst · 7-member team leadership</span>
     </div>
-</section>
+  </div>
 
-<section id="awards">
-    <div class="container">
-        <i class="section-icon fas fa-trophy"></i>
-        <h2>Awards/Achievements</h2>
-        <ul>
-            <li><i class="fas fa-award"></i> Awarded by the honorable Prime Minister of India Shri Narendra Modi [2009]</li>
-            <li><i class="fas fa-award"></i> Awarded by the honorable Chief Minister of Odisha Shri Naveen Patnaik for Science Project [2009]</li>
-        </ul>
+  <!-- EXPERIENCE -->
+  <section id="experience">
+    <div class="section-header reveal">
+      <span class="section-num">01</span>
+      <h2 class="section-title">Experience</h2>
+      <div class="section-line"></div>
     </div>
-</section>
 
-<section id="interests">
-    <div class="container">
-        <i class="section-icon fas fa-heart"></i>
-        <h2>Interests</h2>
-        <p>Chess, Football, Table tennis, Cooking, Weight training</p>
-    </div>
-</section>
+    <div class="exp-grid">
 
-<section id="contact">
-    <div class="container">
-        <i class="section-icon fas fa-envelope"></i>
-        <h2>Contact</h2>
-        <p>Email:<a href="mailto:bidash26@gmail.com">bidash26@gmail.com</a></p>
-        <p>Phone: <a href="tel:+918763802432">+91-8763802432</a></p>
-        <p>LinkedIn: <a href="https://www.linkedin.com/in/biswajyotidash/">Biswajyoti Dash/</a></p>
-        <!-- Add more contact details as needed -->
+      <!-- Lowes Lead -->
+      <div class="exp-item reveal">
+        <div class="exp-left">
+          <img src="lowes-logo.png" alt="Lowe's" class="exp-company-logo" />
+          <div class="exp-period">Jun 2024 – Present</div>
+          <div class="exp-company-name">Lowe's, Bangalore</div>
+        </div>
+        <div class="exp-right">
+          <h3 class="exp-role">Lead Analyst — Cost & Margin Analytics</h3>
+          <span class="exp-tag">Current Role</span>
+          <ul class="exp-bullets">
+            <li>Led Finance Analytics team of 7 analysts; defined strategic roadmap across forecasting, experimentation & automation initiatives.</li>
+            <li>Delivered Delphi Migration Project, migrating 75+ complex assets (Excel, Python, dashboards, KNIME/Alteryx workflows) with full stakeholder sign-off.</li>
+            <li>Automated Python notebooks reducing manual reporting efforts by <strong style="color:var(--accent)">1,000+ hours annually</strong>.</li>
+            <li>Led Transportation Accounting Power BI team — 10+ new dashboards, 40+ legacy dashboards maintained.</li>
+            <li>Owned SOS Account Reporting SME role with annual time savings of <strong style="color:var(--accent)">480+ hours</strong>.</li>
+          </ul>
+          <div class="exp-skills">
+            <span class="skill-chip">Python</span><span class="skill-chip">SQL</span><span class="skill-chip">Power BI</span>
+            <span class="skill-chip">Teradata</span><span class="skill-chip">Hadoop</span><span class="skill-chip">KNIME</span>
+            <span class="skill-chip">A/B Testing</span><span class="skill-chip">Forecasting</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Lowes Senior -->
+      <div class="exp-item reveal reveal-delay-1">
+        <div class="exp-left">
+          <img src="lowes-logo.png" alt="Lowe's" class="exp-company-logo" />
+          <div class="exp-period">May 2022 – Jun 2024</div>
+          <div class="exp-company-name">Lowe's Inc.</div>
+        </div>
+        <div class="exp-right">
+          <h3 class="exp-role">Senior Analyst — Finance Analytics</h3>
+          <span class="exp-tag">Experimentation & ML</span>
+          <ul class="exp-bullets">
+            <li>Delivered <strong style="color:var(--accent)">$8M in savings</strong> by analyzing customer appeasement process shifts.</li>
+            <li>Identified opportunities from $330M Pro SKU inventory, driving multi-million dollar supply chain savings.</li>
+            <li>Analyzed $27M promotional financing strategies for Tier 1 retail events.</li>
+            <li>Owned end-to-end statistical experiments: T-tests, DiD, A/B testing, holdout tests — reducing testing cycle time by 20%.</li>
+            <li>Conducted APT platform training for 40–50 cross-functional members.</li>
+          </ul>
+          <div class="exp-skills">
+            <span class="skill-chip">Facebook Prophet</span><span class="skill-chip">APT</span>
+            <span class="skill-chip">Tableau</span><span class="skill-chip">Excel</span><span class="skill-chip">Diff-in-Diff</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Cisco -->
+      <div class="exp-item reveal reveal-delay-2">
+        <div class="exp-left">
+          <img src="cisco-logo.png" alt="Cisco" class="exp-company-logo" />
+          <div class="exp-period">Sep 2021 – Apr 2022</div>
+          <div class="exp-company-name">Cisco Systems, India</div>
+        </div>
+        <div class="exp-right">
+          <h3 class="exp-role">Business Analyst II — Supply Chain Analytics</h3>
+          <span class="exp-tag">Supply Chain</span>
+          <ul class="exp-bullets">
+            <li>Built demand forecasting models — reduced stockouts by 25%, optimized inventory levels.</li>
+            <li>Developed NLP models for supplier communications, improving compliance across 100+ vendors.</li>
+            <li>ML models for sourcing optimization contributing <strong style="color:var(--accent)">$2M+ annual cost savings</strong>.</li>
+            <li>Created PPV dashboards enabling $10M+ strategic sourcing decisions.</li>
+            <li>Automated reporting workflows saving 5–7 hours/week, improving vendor response rates by 30%.</li>
+          </ul>
+          <div class="exp-skills">
+            <span class="skill-chip">NLP</span><span class="skill-chip">Regression</span>
+            <span class="skill-chip">Snowflake</span><span class="skill-chip">Tableau</span><span class="skill-chip">Python</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- IBM -->
+      <div class="exp-item reveal reveal-delay-3">
+        <div class="exp-left">
+          <img src="ibm-logo.png" alt="IBM" class="exp-company-logo" />
+          <div class="exp-period">Aug 2018 – Sep 2021</div>
+          <div class="exp-company-name">IBM, India</div>
+        </div>
+        <div class="exp-right">
+          <h3 class="exp-role">Senior Data Analyst — Data Science</h3>
+          <span class="exp-tag">ML & Data Science</span>
+          <ul class="exp-bullets">
+            <li>Developed ML models for Hyundai's Product Quality Management System — improved defect prediction accuracy.</li>
+            <li>Built SQL Advisory Chatbot for Hyundai Business Analysts — reduced query resolution time by 30%.</li>
+            <li>Tested promotional event strategies using APT Mastercard, improving campaign ROI.</li>
+            <li>Designed CXO-level Tableau dashboards influencing <strong style="color:var(--accent)">$2M+ budget reallocations</strong>.</li>
+            <li>Analyzed HR data to reduce account-level expenses by up to 15%.</li>
+          </ul>
+          <div class="exp-skills">
+            <span class="skill-chip">Machine Learning</span><span class="skill-chip">Chatbot</span>
+            <span class="skill-chip">Tableau</span><span class="skill-chip">APT Mastercard</span><span class="skill-chip">SQL</span>
+          </div>
+        </div>
+      </div>
+
     </div>
-</section>
+  </section>
+
+  <!-- IMPACT METRICS -->
+  <section id="impact">
+    <div class="section-header reveal">
+      <span class="section-num">02</span>
+      <h2 class="section-title">Impact at a Glance</h2>
+      <div class="section-line"></div>
+    </div>
+    <div class="impact-grid reveal">
+      <div class="impact-card">
+        <div class="impact-icon">💰</div>
+        <div class="impact-num" data-count="35">$0M+</div>
+        <div class="impact-desc">Total value delivered through analytics & experimentation</div>
+      </div>
+      <div class="impact-card">
+        <div class="impact-icon">⏱️</div>
+        <div class="impact-num" data-count="1500">0h</div>
+        <div class="impact-desc">Annual hours saved via Python automation initiatives</div>
+      </div>
+      <div class="impact-card">
+        <div class="impact-icon">📊</div>
+        <div class="impact-num" data-count="50">0+</div>
+        <div class="impact-desc">Dashboards built and maintained across BI platforms</div>
+      </div>
+      <div class="impact-card">
+        <div class="impact-icon">🧪</div>
+        <div class="impact-num" data-count="100">0+</div>
+        <div class="impact-desc">Statistical experiments and A/B tests designed & executed</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SKILLS -->
+  <section id="skills">
+    <div class="section-header reveal">
+      <span class="section-num">03</span>
+      <h2 class="section-title">Skills & Tools</h2>
+      <div class="section-line"></div>
+    </div>
+
+    <div class="skills-layout">
+      <div class="reveal">
+        <div class="skills-col-title">// Core Proficiencies</div>
+        <div class="skill-bar-item">
+          <div class="skill-bar-header"><span class="skill-bar-name">Python & SQL</span><span class="skill-bar-pct">95%</span></div>
+          <div class="skill-bar-track"><div class="skill-bar-fill" style="--target-width:95%"></div></div>
+        </div>
+        <div class="skill-bar-item">
+          <div class="skill-bar-header"><span class="skill-bar-name">Statistical Analysis & A/B Testing</span><span class="skill-bar-pct">93%</span></div>
+          <div class="skill-bar-track"><div class="skill-bar-fill" style="--target-width:93%"></div></div>
+        </div>
+        <div class="skill-bar-item">
+          <div class="skill-bar-header"><span class="skill-bar-name">Tableau & Power BI</span><span class="skill-bar-pct">92%</span></div>
+          <div class="skill-bar-track"><div class="skill-bar-fill" style="--target-width:92%"></div></div>
+        </div>
+        <div class="skill-bar-item">
+          <div class="skill-bar-header"><span class="skill-bar-name">Machine Learning & NLP</span><span class="skill-bar-pct">85%</span></div>
+          <div class="skill-bar-track"><div class="skill-bar-fill" style="--target-width:85%"></div></div>
+        </div>
+        <div class="skill-bar-item">
+          <div class="skill-bar-header"><span class="skill-bar-name">Time Series Forecasting</span><span class="skill-bar-pct">88%</span></div>
+          <div class="skill-bar-track"><div class="skill-bar-fill" style="--target-width:88%"></div></div>
+        </div>
+      </div>
+
+      <div class="reveal reveal-delay-2">
+        <div class="skills-col-title">// Technologies & Platforms</div>
+        <div class="skills-tags-grid">
+          <span class="tag-pill">Teradata</span>
+          <span class="tag-pill">Hive / Spark</span>
+          <span class="tag-pill">Snowflake</span>
+          <span class="tag-pill">GCP</span>
+          <span class="tag-pill">IBM TM1</span>
+          <span class="tag-pill">Oracle</span>
+          <span class="tag-pill">PeopleSoft</span>
+          <span class="tag-pill">KNIME</span>
+          <span class="tag-pill">Alteryx</span>
+          <span class="tag-pill">APT / Mastercard</span>
+          <span class="tag-pill">Power BI</span>
+          <span class="tag-pill">Tableau</span>
+          <span class="tag-pill">Facebook Prophet</span>
+          <span class="tag-pill">scikit-learn</span>
+          <span class="tag-pill">Hypothesis Testing</span>
+          <span class="tag-pill">Diff-in-Diff</span>
+          <span class="tag-pill">Logistic Regression</span>
+          <span class="tag-pill">ANOVA / Chi-square</span>
+          <span class="tag-pill">Excel</span>
+          <span class="tag-pill">MS Excel Advanced</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- EDUCATION -->
+  <section id="education">
+    <div class="section-header reveal">
+      <span class="section-num">04</span>
+      <h2 class="section-title">Education</h2>
+      <div class="section-line"></div>
+    </div>
+    <div class="edu-grid">
+      <div class="edu-card reveal">
+        <div class="edu-pct">7.7</div>
+        <div class="edu-degree">B.Tech</div>
+        <div class="edu-institution">IIIT Bhubaneswar</div>
+        <div class="edu-meta">2014 – 2018 · Odisha, India<br>GPA 7.7 / 10</div>
+      </div>
+      <div class="edu-card reveal reveal-delay-1">
+        <div class="edu-pct">75%</div>
+        <div class="edu-degree">Intermediate</div>
+        <div class="edu-institution">Gangadhar Meher Govt. University</div>
+        <div class="edu-meta">2011 – 2013 · Odisha, India<br>75.83%</div>
+      </div>
+      <div class="edu-card reveal reveal-delay-2">
+        <div class="edu-pct">80%</div>
+        <div class="edu-degree">High School</div>
+        <div class="edu-institution">Budharaja High School</div>
+        <div class="edu-meta">2008 – 2011 · Odisha, India<br>80.16%</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- AWARDS -->
+  <section id="awards">
+    <div class="section-header reveal">
+      <span class="section-num">05</span>
+      <h2 class="section-title">Awards & Recognition</h2>
+      <div class="section-line"></div>
+    </div>
+    <div class="awards-grid">
+      <div class="award-card reveal">
+        <div class="award-icon">🏅</div>
+        <div class="award-content">
+          <div class="award-title">Felicitated by Hon. Prime Minister of India</div>
+          <div class="award-desc">Recognized by Shri Narendra Modi for excellence at the National Science Project Exhibition.</div>
+          <div class="award-year">2009</div>
+        </div>
+      </div>
+      <div class="award-card reveal reveal-delay-1">
+        <div class="award-icon">🏆</div>
+        <div class="award-content">
+          <div class="award-title">Chief Minister of Odisha — Science Award</div>
+          <div class="award-desc">Felicitated by Shri Naveen Patnaik for outstanding State-level Science Project contribution.</div>
+          <div class="award-year">2009</div>
+        </div>
+      </div>
+      <div class="award-card reveal reveal-delay-2">
+        <div class="award-icon">⭐</div>
+        <div class="award-content">
+          <div class="award-title">Quarterly Excellence Award × 2 — Lowe's</div>
+          <div class="award-desc">Twice recognized for outstanding performance and impact in analytics initiatives at Lowe's.</div>
+          <div class="award-year">2022–2024</div>
+        </div>
+      </div>
+      <div class="award-card reveal reveal-delay-3">
+        <div class="award-icon">🎯</div>
+        <div class="award-content">
+          <div class="award-title">Multiple Spot Awards — Lowe's</div>
+          <div class="award-desc">Recognized for delivering high-impact data science and automation projects that influenced strategic decisions.</div>
+          <div class="award-year">Ongoing</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ABOUT & INTERESTS -->
+  <section id="about">
+    <div class="section-header reveal">
+      <span class="section-num">06</span>
+      <h2 class="section-title">About Me</h2>
+      <div class="section-line"></div>
+    </div>
+    <div class="about-layout">
+      <div class="about-text reveal">
+        <p>I'm a results-driven Data Analytics & Machine Learning professional who believes data is only as powerful as the decisions it enables. With 7+ years across retail finance, supply chain, and transportation analytics, I've built a career around turning complex data into strategy.</p>
+        <p>I lead teams, mentor analysts, and architect scalable solutions — from statistical experiments saving $35M+ to Python automation that reclaimed thousands of hours. I thrive at the intersection of data engineering, ML, and business strategy.</p>
+        <p style="color:var(--accent)">Currently open to Lead / Principal Data Analyst and Senior Data Science roles at high-growth companies.</p>
+      </div>
+      <div class="reveal reveal-delay-2">
+        <div class="skills-col-title" style="margin-bottom:20px;">// Interests & Hobbies</div>
+        <div class="interests-grid">
+          <div class="interest-item"><i class="fas fa-chess"></i> Chess</div>
+          <div class="interest-item"><i class="fas fa-futbol"></i> Football</div>
+          <div class="interest-item"><i class="fas fa-table-tennis-paddle-ball"></i> Table Tennis</div>
+          <div class="interest-item"><i class="fas fa-utensils"></i> Cooking</div>
+          <div class="interest-item"><i class="fas fa-dumbbell"></i> Weight Training</div>
+          <div class="interest-item"><i class="fas fa-chart-line"></i> Data Science</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact">
+    <div class="contact-inner">
+      <div class="section-header reveal" style="justify-content:center">
+        <span class="section-num">07</span>
+        <h2 class="section-title">Let's Connect</h2>
+      </div>
+      <p class="contact-sub reveal">Open to senior data analytics, data science, and ML engineering opportunities. Let's build something impactful together.</p>
+      <div class="contact-links reveal">
+        <a href="mailto:bidash26@gmail.com" class="contact-link"><i class="fas fa-envelope"></i> bidash26@gmail.com</a>
+        <a href="tel:+918763802432" class="contact-link"><i class="fas fa-phone"></i> +91-8763802432</a>
+        <a href="https://www.linkedin.com/in/biswajyotidash/" target="_blank" class="contact-link"><i class="fab fa-linkedin"></i> LinkedIn Profile</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-name">Biswajyoti Dash</div>
+    <div class="footer-copy">© 2025 · Built with precision · Bangalore, India</div>
+  </footer>
+
+  <script>
+    // Custom cursor
+    const cursor = document.getElementById('cursor');
+    const cursorRing = document.getElementById('cursorRing');
+    let mx = 0, my = 0, rx = 0, ry = 0;
+    document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
+    function animCursor() {
+      cursor.style.left = mx + 'px'; cursor.style.top = my + 'px';
+      rx += (mx - rx) * 0.15; ry += (my - ry) * 0.15;
+      cursorRing.style.left = rx + 'px'; cursorRing.style.top = ry + 'px';
+      requestAnimationFrame(animCursor);
+    }
+    animCursor();
+
+    // Nav scroll
+    const nav = document.getElementById('mainNav');
+    window.addEventListener('scroll', () => {
+      nav.classList.toggle('scrolled', window.scrollY > 60);
+    });
+
+    // Reveal on scroll
+    const reveals = document.querySelectorAll('.reveal');
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); } });
+    }, { threshold: 0.12 });
+    reveals.forEach(el => observer.observe(el));
+
+    // Skill bars
+    const barObserver = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.querySelectorAll('.skill-bar-fill').forEach(bar => bar.classList.add('animated'));
+        }
+      });
+    }, { threshold: 0.3 });
+    document.querySelectorAll('.skills-layout').forEach(el => barObserver.observe(el));
+
+    // Count up animation
+    const countObserver = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.querySelectorAll('[data-count]').forEach(el => {
+            const target = parseInt(el.dataset.count);
+            const prefix = el.textContent.includes('$') ? '$' : '';
+            const suffix = el.textContent.includes('h') ? 'h' : (el.textContent.includes('M') ? 'M+' : '+');
+            let current = 0;
+            const step = target / 60;
+            const timer = setInterval(() => {
+              current = Math.min(current + step, target);
+              el.textContent = prefix + Math.floor(current) + suffix;
+              if (current >= target) clearInterval(timer);
+            }, 20);
+          });
+        }
+      });
+    }, { threshold: 0.5 });
+    document.querySelectorAll('.impact-grid').forEach(el => countObserver.observe(el));
+  </script>
+</body>
+</html>
